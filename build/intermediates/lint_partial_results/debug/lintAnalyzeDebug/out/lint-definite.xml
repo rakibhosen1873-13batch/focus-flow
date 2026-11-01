@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 9.5.0" type="incidents">
+
+    <incident
+        id="MissingOnRenderProcessGone"
+        severity="warning"
+        message="WebViewClient should implement `onRenderProcessGone` to handle render process crashes or out-of-memory errors. Otherwise, the app will crash when the render process is shut down.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/focusflow/dailyroutines/MainActivity.java"
+            line="30"
+            column="38"
+            startOffset="1038"
+            endLine="30"
+            endColumn="51"
+            endOffset="1051"/>
+    </incident>
+
+    <incident
+        id="SetJavaScriptEnabled"
+        severity="warning"
+        message="Using `setJavaScriptEnabled` can introduce XSS vulnerabilities into your application, review carefully">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/focusflow/dailyroutines/MainActivity.java"
+            line="20"
+            column="9"
+            startOffset="523"
+            endLine="20"
+            endColumn="57"
+            endOffset="571"/>
+    </incident>
+
+</incidents>

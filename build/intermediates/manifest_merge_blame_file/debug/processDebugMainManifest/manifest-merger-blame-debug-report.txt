@@ -1,0 +1,125 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.focusflow.dailyroutines"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+7-->INJECTED
+8        android:minSdkVersion="24"
+8-->INJECTED
+9        android:targetSdkVersion="35" />
+9-->INJECTED
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:2:5-67
+11-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:2:22-64
+12
+13    <permission
+13-->[androidx.core:core:1.18.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\508fdf91e005caa5261780d42cdb744d\transformed\core-1.18.0\AndroidManifest.xml:22:5-24:47
+14        android:name="com.focusflow.dailyroutines.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+14-->[androidx.core:core:1.18.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\508fdf91e005caa5261780d42cdb744d\transformed\core-1.18.0\AndroidManifest.xml:23:9-81
+15        android:protectionLevel="signature" />
+15-->[androidx.core:core:1.18.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\508fdf91e005caa5261780d42cdb744d\transformed\core-1.18.0\AndroidManifest.xml:24:9-44
+16
+17    <uses-permission android:name="com.focusflow.dailyroutines.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+17-->[androidx.core:core:1.18.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\508fdf91e005caa5261780d42cdb744d\transformed\core-1.18.0\AndroidManifest.xml:26:5-97
+17-->[androidx.core:core:1.18.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\508fdf91e005caa5261780d42cdb744d\transformed\core-1.18.0\AndroidManifest.xml:26:22-94
+18
+19    <application
+19-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:4:5-21:19
+20        android:allowBackup="false"
+20-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:5:9-36
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.18.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\508fdf91e005caa5261780d42cdb744d\transformed\core-1.18.0\AndroidManifest.xml:28:18-86
+22        android:dataExtractionRules="@xml/data_extraction_rules"
+22-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:6:9-65
+23        android:debuggable="true"
+24        android:extractNativeLibs="false"
+24-->INJECTED
+25        android:fullBackupContent="@xml/backup_rules"
+25-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:7:9-54
+26        android:icon="@drawable/ic_launcher"
+26-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:8:9-45
+27        android:label="FocusFlow"
+27-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:9:9-34
+28        android:theme="@style/AppTheme"
+28-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:10:9-40
+29        android:usesCleartextTraffic="false" >
+29-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:11:9-45
+30        <activity
+30-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:12:9-20:20
+31            android:name="com.focusflow.dailyroutines.MainActivity"
+31-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:13:13-41
+32            android:configChanges="orientation|screenSize"
+32-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:14:13-59
+33            android:exported="true" >
+33-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:15:13-36
+34            <intent-filter>
+34-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:16:13-19:29
+35                <action android:name="android.intent.action.MAIN" />
+35-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:17:17-69
+35-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:17:25-66
+36
+37                <category android:name="android.intent.category.LAUNCHER" />
+37-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:18:17-77
+37-->C:\project\apps\daily-routines\android\app\src\main\AndroidManifest.xml:18:27-74
+38            </intent-filter>
+39        </activity>
+40
+41        <provider
+41-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:24:9-32:20
+42            android:name="androidx.startup.InitializationProvider"
+42-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:25:13-67
+43            android:authorities="com.focusflow.dailyroutines.androidx-startup"
+43-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:26:13-68
+44            android:exported="false" >
+44-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:27:13-37
+45            <meta-data
+45-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+46                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+46-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+47                android:value="androidx.startup" />
+47-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+48        </provider>
+49
+50        <receiver
+50-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+51            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+51-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+52            android:directBootAware="false"
+52-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+53            android:enabled="true"
+53-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+54            android:exported="true"
+54-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+55            android:permission="android.permission.DUMP" >
+55-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+56            <intent-filter>
+56-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+57                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+57-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+57-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+58            </intent-filter>
+59            <intent-filter>
+59-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+60                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+60-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+60-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+61            </intent-filter>
+62            <intent-filter>
+62-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+63                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+63-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+63-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+64            </intent-filter>
+65            <intent-filter>
+65-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+66                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+66-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+66-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Perfect\.gradle\caches\9.8.2\transforms\8704cc5b2cf8014cda441a1e3bf47867\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+67            </intent-filter>
+68        </receiver>
+69    </application>
+70
+71</manifest>

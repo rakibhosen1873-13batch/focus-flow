@@ -1,0 +1,11 @@
+com.focusflow.dailyroutines.app-annotation-experimental-1.4.1-0 C:\Users\Perfect\.gradle\caches\9.5.0\transforms\7d2978dca4548406a603bdc55ff75301\transformed\annotation-experimental-1.4.1\res
+com.focusflow.dailyroutines.app-core-1.1.0-1 C:\Users\Perfect\.gradle\caches\9.5.0\transforms\e437569d344aeff366c52dd02c3fdf28\transformed\core-1.1.0\res
+com.focusflow.dailyroutines.app-webkit-1.12.1-2 C:\Users\Perfect\.gradle\caches\9.5.0\transforms\f9dc8d6bd94b7ba9cc9337d26ff45552\transformed\webkit-1.12.1\res
+com.focusflow.dailyroutines.app-pngs-3 C:\project\apps\daily-routines\android\app\build\generated\res\pngs\debug
+com.focusflow.dailyroutines.app-resValues-4 C:\project\apps\daily-routines\android\app\build\generated\res\resValues\debug
+com.focusflow.dailyroutines.app-updated_navigation_xml-5 C:\project\apps\daily-routines\android\app\build\generated\updated_navigation_xml\debug
+com.focusflow.dailyroutines.app-packageDebugResources-6 C:\project\apps\daily-routines\android\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.focusflow.dailyroutines.app-packageDebugResources-7 C:\project\apps\daily-routines\android\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.focusflow.dailyroutines.app-debug-8 C:\project\apps\daily-routines\android\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.focusflow.dailyroutines.app-debug-9 C:\project\apps\daily-routines\android\app\src\debug\res
+com.focusflow.dailyroutines.app-main-10 C:\project\apps\daily-routines\android\app\src\main\res

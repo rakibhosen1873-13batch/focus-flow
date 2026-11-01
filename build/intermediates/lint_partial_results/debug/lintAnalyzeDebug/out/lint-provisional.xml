@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 9.5.0" type="conditional_incidents">
+
+    <incident
+        id="GestureBackNavigation"
+        severity="warning"
+        message="`onBackPressed` is no longer called for back gestures; migrate to AndroidX&apos;s backward compatible `OnBackPressedDispatcher`">
+        <show-url
+            description="Show https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture"
+            url="https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/com/focusflow/dailyroutines/MainActivity.java"
+            line="43"
+            column="17"
+            startOffset="1477"
+            endLine="43"
+            endColumn="30"
+            endOffset="1490"/>
+    </incident>
+
+</incidents>

@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.focusflow.dailyroutines.app-debug-20:/xml_data_extraction_rules.xml.flat",
+        "source": "com.focusflow.dailyroutines.app-main-22:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.focusflow.dailyroutines.app-debug-20:/xml_backup_rules.xml.flat",
+        "source": "com.focusflow.dailyroutines.app-main-22:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.focusflow.dailyroutines.app-debug-20:/drawable_ic_launcher.xml.flat",
+        "source": "com.focusflow.dailyroutines.app-main-22:/drawable/ic_launcher.xml"
+    }
+]

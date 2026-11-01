@@ -1,0 +1,45 @@
+C:\project\apps\daily-routines\android\app\src\main\java\com\focusflow\dailyroutines\MainActivity.java:43: Error: onBackPressed is no longer called for back gestures; migrate to AndroidX's backward compatible OnBackPressedDispatcher [GestureBackNavigation]
+    public void onBackPressed() {
+                ~~~~~~~~~~~~~
+
+   Explanation for issues of type "GestureBackNavigation":
+   For apps targeting and running on Android 16+ (API 36+), predictive back
+   animations are enabled by default. A back gesture does not trigger
+   {Activity,Dialog}.onBackPressed, and does not dispatch
+   KeyEvent.KEYCODE_BACK.
+
+   Apps should migrate to AndroidX's backward compatible
+   OnBackPressedDispatcher.
+
+   This lint check does not consider per-activity opt-in/opt-out, so you may
+   need to suppress or baseline reported incidents if migrating per-activity.
+
+   https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture
+
+C:\project\apps\daily-routines\android\app\src\main\java\com\focusflow\dailyroutines\MainActivity.java:30: Warning: WebViewClient should implement onRenderProcessGone to handle render process crashes or out-of-memory errors. Otherwise, the app will crash when the render process is shut down. [MissingOnRenderProcessGone from androidx.webkit]
+        webView.setWebViewClient(new WebViewClient() {
+                                     ~~~~~~~~~~~~~
+
+   Explanation for issues of type "MissingOnRenderProcessGone":
+   If a WebView's render process is shut down, the app will crash unless the
+   WebViewClient implements onRenderProcessGone and returns true. It is highly
+   recommended to handle this callback.
+
+   https://developer.android.com/develop/ui/views/layout/webapps/handle-termination
+
+   Vendor: Android Open Source Project
+   Identifier: androidx.webkit
+   Feedback: https://issuetracker.google.com/issues/new?component=460423
+
+C:\project\apps\daily-routines\android\app\src\main\java\com\focusflow\dailyroutines\MainActivity.java:20: Warning: Using setJavaScriptEnabled can introduce XSS vulnerabilities into your application, review carefully [SetJavaScriptEnabled]
+        webView.getSettings().setJavaScriptEnabled(true);
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "SetJavaScriptEnabled":
+   Your code should not invoke setJavaScriptEnabled if you are not sure that
+   your app really requires JavaScript support.
+
+   https://goo.gle/SetJavaScriptEnabled
+   https://developer.android.com/training/articles/security-tips
+
+1 error, 2 warnings

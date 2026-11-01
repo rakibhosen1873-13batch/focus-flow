@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow - Daily Routine & Social Blocker</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0b0f19',
+                        carddark: '#151c2c'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Hind Siliguri', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts for English & Bangla -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background-color: #030712;
+            color: #ffffff;
+        }
+        html.light body {
+            background: linear-gradient(180deg, #edf4ff 0%, #f8fafc 100%);
+            color: #0f172a;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        html.light ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        html.light ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+        }
+        
+        /* Deep Obsidian & Electric Blue Panels */
+        .glass-panel-routine {
+            background: #0b0f19;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.08);
+        }
+
+        .glass-panel-timer {
+            background: #0b0f19;
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.12);
+        }
+
+        .glass-panel-blocker {
+            background: #0b0f19;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.08);
+        }
+
+        .glass-panel-sounds {
+            background: #0b0f19;
+            border: 1px solid rgba(14, 165, 233, 0.35);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.08);
+        }
+
+        .glass-panel-analytics {
+            background: #0b0f19;
+            border: 1px solid rgba(236, 72, 153, 0.35);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.08);
+        }
+
+        html.light .glass-panel-routine,
+        html.light .glass-panel-timer,
+        html.light .glass-panel-blocker,
+        html.light .glass-panel-sounds,
+        html.light .glass-panel-analytics {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 20px rgba(148, 163, 184, 0.12);
+        }
+
+        html.light .bg-\[\#030712\] {
+            background-color: #f8fafc !important;
+        }
+
+        html.light .text-white {
+            color: #0f172a !important;
+        }
+
+        html.light .text-slate-400,
+        html.light .text-slate-300,
+        html.light .text-slate-500 {
+            color: #475569 !important;
+        }
+
+        html.light .bg-slate-900 {
+            background-color: #e2e8f0 !important;
+        }
+
+        html.light .border-blue-500\/30,
+        html.light .border-blue-900\/50,
+        html.light .border-slate-700,
+        html.light .border-slate-800 {
+            border-color: rgba(148, 163, 184, 0.45) !important;
+        }
+
+        html.light [class*="bg-blue-"] {
+            background-color: #16a34a !important;
+            color: #000000 !important;
+        }
+
+        html.light [class*="bg-blue-"] [class*="text-blue-"],
+        html.light [class*="bg-blue-"] .text-white {
+            color: #000000 !important;
+        }
+
+        html.light [class*="text-blue-"] {
+            color: #16a34a !important;
+        }
+
+        html.light [class*="bg-blue-"][class*="text-blue-"] {
+            color: #000000 !important;
+        }
+
+        html.light [class*="border-blue-"] {
+            border-color: rgba(22, 163, 74, 0.45) !important;
+        }
+
+        html.light [class*="shadow-blue-"] {
+            box-shadow: 0 0 25px rgba(22, 163, 74, 0.25) !important;
+        }
+
+        html.light .bg-blue-950\/80 {
+            background: rgba(220, 252, 231, 0.95) !important;
+            border-color: rgba(22, 163, 74, 0.32) !important;
+            color: #166534 !important;
+        }
+
+        html.light .bg-\[\#0b0f19\] {
+            background-color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        html.light header {
+            background-color: rgba(3, 7, 18, 0.96) !important;
+        }
+
+        html.light .brand-focus {
+            color: #60a5fa !important;
+        }
+
+        html.light .brand-flow {
+            color: #ffffff !important;
+        }
+
+        html.light #subHeaderDesc {
+            color: #94a3b8 !important;
+        }
+
+        .timer-glow-blue {
+            box-shadow: 0 0 35px rgba(59, 130, 246, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-[#030712] text-white min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- TOP NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 w-full bg-[#030712]/90 backdrop-blur-md border-b border-blue-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-blue-600 text-white rounded-xl shadow-lg shadow-blue-600/40">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black tracking-tight text-white flex items-center gap-1.5">
+                        <span class="brand-focus">Focus</span><span class="brand-flow text-blue-500">Flow</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 font-medium hidden sm:block" id="subHeaderDesc">
+                        রুটিন প্ল্যানার ও সোশ্যাল মিডিয়া ব্লকার
+                    </p>
+                </div>
+            </div>
+
+            <!-- Header Action Controls -->
+            <div class="flex items-center space-x-1.5 sm:space-x-3">
+                <button id="accountBtn" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-blue-950/80 hover:bg-blue-900/80 border border-blue-500/40 text-xs font-bold text-white transition flex items-center space-x-1.5" aria-label="Sign up or log in">
+                    <i id="accountBtnIcon" data-lucide="user" class="w-4 h-4 text-blue-400"></i>
+                    <span id="accountBtnText">সাইন আপ / লগইন</span>
+                </button>
+
+                <button id="settingsBtn" class="p-2 rounded-xl bg-blue-950/80 border border-blue-500/40 text-blue-400 hover:text-white transition" title="সেটিংস" aria-label="সেটিংস">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Lang Toggle Button -->
+                <button id="langToggleBtn" class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-blue-950/80 hover:bg-blue-900/80 border border-blue-500/40 text-xs font-bold text-white transition">
+                    <i data-lucide="globe" class="w-4 h-4 text-blue-400"></i>
+                    <span id="langLabel">English</span>
+                </button>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" class="hidden sm:block p-2 rounded-xl bg-blue-950/80 border border-blue-500/40 text-blue-400 hover:text-white transition" title="Toggle Theme">
+                    <i data-lucide="sun" id="sunIcon" class="w-4 h-4 text-amber-400 hidden"></i>
+                    <i data-lucide="moon" id="moonIcon" class="w-4 h-4 text-blue-400"></i>
+                </button>
+
+                <!-- Quick Focus Trigger -->
+                <button id="quickFocusBtn" class="flex items-center space-x-2 px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/40 transition">
+                    <i data-lucide="zap" class="w-4 h-4 text-amber-300"></i>
+                    <span id="quickFocusLabel" class="hidden sm:inline">ফোকাস মোড</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY LAYOUT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- LEFT COLUMN: ROUTINE PLANNER (OBSIDIAN & BLUE) (7 Cols) -->
+        <section class="lg:col-span-7 flex flex-col space-y-6">
+            
+            <!-- Dashboard Overview Card -->
+            <div class="glass-panel-routine p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="space-y-1 text-center sm:text-left">
+                    <h2 class="text-lg font-bold text-white flex items-center justify-center sm:justify-start" id="todayHeadline">
+                        <i data-lucide="calendar" class="w-5 h-5 mr-2 text-blue-400"></i> আজকের অগ্রগতি
+                    </h2>
+                    <p class="text-xs text-slate-400" id="currentDateStr">লোড হচ্ছে...</p>
+                    <div class="flex items-center space-x-3 pt-2 justify-center sm:justify-start">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                            <i data-lucide="flame" class="w-3.5 h-3.5 mr-1 text-amber-400 animate-pulse"></i>
+                            <span id="streakCount">0</span> <span class="ml-1" id="streakText">দিন স্ট্রিক</span>
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30">
+                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 mr-1 text-blue-400"></i>
+                            <span id="completedTasksRatio">0/0</span> <span class="ml-1" id="completedRatioText">সম্পন্ন</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Progress Circle -->
+                <div class="relative w-24 h-24 flex-shrink-0">
+                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                        <path class="text-slate-900" stroke-width="3.8" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path id="routineProgressCircle" class="text-blue-500 transition-all duration-500 stroke-current" stroke-dasharray="0, 100" stroke-width="3.8" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center flex-col">
+                        <span id="progressPercentText" class="text-base font-extrabold text-white">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Creator Form -->
+            <div class="glass-panel-routine p-4 rounded-2xl">
+                <form id="addRoutineForm" class="flex flex-col sm:flex-row gap-3">
+                    <input type="text" id="taskTitleInput" placeholder="নতুন টাস্ক বা রুটিন নাম..." required
+                        class="flex-grow px-4 py-2.5 rounded-xl bg-[#030712] border border-blue-500/30 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-400 transition">
+                    
+                    <div class="flex gap-2">
+                        <select id="taskCategoryInput" class="px-3 py-2.5 rounded-xl bg-[#030712] border border-blue-500/30 text-xs font-semibold text-blue-300 focus:outline-none focus:border-blue-400">
+                            <option value="morning">🌅 সকাল</option>
+                            <option value="afternoon">☀️ দুপুর</option>
+                            <option value="evening">🌇 সন্ধ্যা</option>
+                            <option value="night">🌙 রাত</option>
+                        </select>
+
+                        <input type="time" id="taskTimeInput" value="08:00" class="px-3 py-2.5 rounded-xl bg-[#030712] border border-blue-500/30 text-xs font-semibold text-white focus:outline-none focus:border-blue-400">
+
+                        <button type="submit" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold flex items-center justify-center transition flex-shrink-0 shadow-lg shadow-blue-600/30">
+                            <i data-lucide="plus" class="w-4 h-4 mr-1"></i> <span id="addBtnText">যোগ করুন</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex items-center space-x-2 overflow-x-auto pb-1 text-xs">
+                <button data-filter="all" class="filter-tab active-tab px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold transition">সবগুলো</button>
+                <button data-filter="morning" class="filter-tab px-3 py-1.5 rounded-lg bg-[#0b0f19] text-slate-300 border border-blue-900/50 font-semibold transition">🌅 সকাল</button>
+                <button data-filter="afternoon" class="filter-tab px-3 py-1.5 rounded-lg bg-[#0b0f19] text-slate-300 border border-blue-900/50 font-semibold transition">☀️ দুপুর</button>
+                <button data-filter="evening" class="filter-tab px-3 py-1.5 rounded-lg bg-[#0b0f19] text-slate-300 border border-blue-900/50 font-semibold transition">🌇 সন্ধ্যা</button>
+                <button data-filter="night" class="filter-tab px-3 py-1.5 rounded-lg bg-[#0b0f19] text-slate-300 border border-blue-900/50 font-semibold transition">🌙 রাত</button>
+            </div>
+
+            <!-- Task List Container -->
+            <div id="routineListContainer" class="space-y-3 flex-grow min-h-[280px]">
+                <!-- Dynamic Tasks Rendered Here -->
+            </div>
+
+        </section>
+
+
+        <!-- RIGHT COLUMN: TIMER, BLOCKER, SOUNDS, ANALYTICS (5 Cols) -->
+        <section class="lg:col-span-5 flex flex-col space-y-6">
+            
+            <!-- Pomodoro / Focus Timer Card -->
+            <div class="glass-panel-timer p-6 rounded-2xl flex flex-col items-center text-center relative overflow-hidden">
+                <div class="absolute top-3 right-3">
+                    <span id="focusStatusBadge" class="px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase bg-blue-950 text-blue-400 border border-blue-500/40">
+                        নিষ্ক্রিয়
+                    </span>
+                </div>
+
+                <h3 class="text-base font-extrabold text-white mb-1 flex items-center" id="pomodoroHeader">
+                    <i data-lucide="timer" class="w-5 h-5 mr-2 text-indigo-400"></i> পোমোডোরো ফোকাস টাইমার
+                </h3>
+                <p class="text-xs text-slate-400 mb-4" id="pomodoroSubHeader">মনোযোগ ধরে রাখতে ও সোশ্যাল মিডিয়া মুক্ত থাকতে সময় সেট করুন</p>
+
+                <!-- Digital Clock Display -->
+                <div class="my-2 p-6 rounded-3xl bg-[#030712] border border-blue-500/40 w-full max-w-[280px] timer-glow-blue">
+                    <div id="timerDisplay" class="text-5xl font-mono font-black tracking-widest text-blue-400">25:00</div>
+                </div>
+
+                <!-- Timer Presets -->
+                <div class="flex space-x-2 my-3">
+                    <button onclick="setTimerDuration(25)" class="px-3 py-1 bg-blue-950 hover:bg-blue-900 text-blue-300 rounded-lg text-xs font-bold border border-blue-500/30 transition">২৫ মিনিট</button>
+                    <button onclick="setTimerDuration(50)" class="px-3 py-1 bg-blue-950 hover:bg-blue-900 text-blue-300 rounded-lg text-xs font-bold border border-blue-500/30 transition">৫০ মিনিট</button>
+                    <button onclick="setTimerDuration(15)" class="px-3 py-1 bg-blue-950 hover:bg-blue-900 text-blue-300 rounded-lg text-xs font-bold border border-blue-500/30 transition">১৫ মিনিট</button>
+                </div>
+
+                <!-- Timer Controls -->
+                <div class="flex items-center space-x-3 mt-2">
+                    <button id="startTimerBtn" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center shadow-lg shadow-blue-600/30 transition">
+                        <i data-lucide="play" class="w-4 h-4 mr-1.5"></i> <span id="startBtnText">শুরু করুন</span>
+                    </button>
+                    <button id="resetTimerBtn" class="px-4 py-2.5 rounded-xl bg-[#030712] hover:bg-slate-900 text-slate-300 font-bold text-xs flex items-center border border-blue-500/30 transition">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4 mr-1.5"></i> <span id="resetBtnText">রিসেট</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Social Media Blocker Control Panel -->
+            <div class="glass-panel-blocker p-5 rounded-2xl">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400"></i>
+                        <h3 class="text-sm font-extrabold text-white" id="blockerTitle">সোশ্যাল মিডিয়া ব্লকার</h3>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="globalBlockerToggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-slate-900 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                    </label>
+                </div>
+                <p class="text-xs text-slate-400 mb-4" id="blockerDesc">ফোকাস চলাকালীন সাইটগুলোতে প্রবেশ করতে গেলে বাধা দেবে</p>
+
+                <!-- Blocked Platforms Grid -->
+                <div class="grid grid-cols-2 gap-2.5" id="socialAppGrid">
+                    <!-- Facebook -->
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#030712] border border-amber-500/30">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="facebook" class="w-4 h-4 text-blue-400"></i>
+                            <span class="text-xs font-bold text-white">Facebook</span>
+                        </div>
+                        <button onclick="testBlockOverlay('Facebook')" class="blocker-test-btn text-[11px] px-2 py-0.5 rounded bg-amber-500/20 hover:bg-rose-600 hover:text-white text-amber-400 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed">টেস্ট ব্লকার</button>
+                    </div>
+                    <!-- YouTube -->
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#030712] border border-amber-500/30">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="youtube" class="w-4 h-4 text-rose-500"></i>
+                            <span class="text-xs font-bold text-white">YouTube</span>
+                        </div>
+                        <button onclick="testBlockOverlay('YouTube')" class="blocker-test-btn text-[11px] px-2 py-0.5 rounded bg-amber-500/20 hover:bg-rose-600 hover:text-white text-amber-400 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed">টেস্ট ব্লকার</button>
+                    </div>
+                    <!-- Instagram -->
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#030712] border border-amber-500/30">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="instagram" class="w-4 h-4 text-pink-400"></i>
+                            <span class="text-xs font-bold text-white">Instagram</span>
+                        </div>
+                        <button onclick="testBlockOverlay('Instagram')" class="blocker-test-btn text-[11px] px-2 py-0.5 rounded bg-amber-500/20 hover:bg-rose-600 hover:text-white text-amber-400 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed">টেস্ট ব্লকার</button>
+                    </div>
+                    <!-- Twitter/X -->
+                    <div class="flex items-center justify-between p-2.5 rounded-xl bg-[#030712] border border-amber-500/30">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="twitter" class="w-4 h-4 text-sky-400"></i>
+                            <span class="text-xs font-bold text-white">Twitter / X</span>
+                        </div>
+                        <button onclick="testBlockOverlay('Twitter')" class="blocker-test-btn text-[11px] px-2 py-0.5 rounded bg-amber-500/20 hover:bg-rose-600 hover:text-white text-amber-400 font-bold transition disabled:opacity-50 disabled:cursor-not-allowed">টেস্ট ব্লকার</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ambient Sound Generator -->
+            <div class="glass-panel-sounds p-5 rounded-2xl">
+                <div class="flex items-center space-x-2 mb-3">
+                    <i data-lucide="headphones" class="w-5 h-5 text-sky-400"></i>
+                    <h3 class="text-sm font-extrabold text-white" id="soundTitle">অ্যাম্বিয়েন্ট সাউন্ড (Focus Music)</h3>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <button id="soundRainBtn" class="sound-btn p-2.5 rounded-xl bg-[#030712] border border-sky-500/30 hover:border-sky-400 flex flex-col items-center text-xs font-bold text-sky-300 transition">
+                        <i data-lucide="cloud-rain" class="w-5 h-5 mb-1 text-sky-400"></i>
+                        <span>বৃষ্টির শব্দ</span>
+                    </button>
+                    <button id="soundWhiteBtn" class="sound-btn p-2.5 rounded-xl bg-[#030712] border border-sky-500/30 hover:border-sky-400 flex flex-col items-center text-xs font-bold text-sky-300 transition">
+                        <i data-lucide="wind" class="w-5 h-5 mb-1 text-teal-300"></i>
+                        <span>হালকা বাতাস</span>
+                    </button>
+                    <button id="soundWavesBtn" class="sound-btn p-2.5 rounded-xl bg-[#030712] border border-sky-500/30 hover:border-sky-400 flex flex-col items-center text-xs font-bold text-sky-300 transition">
+                        <i data-lucide="waves" class="w-5 h-5 mb-1 text-blue-400"></i>
+                        <span>সমুদ্রের ঢেউ</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Analytics Chart Card -->
+            <div class="glass-panel-analytics p-5 rounded-2xl">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-extrabold text-white flex items-center" id="analyticsTitle">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4 mr-2 text-pink-400"></i> সাপ্তাহিক প্রোডাক্টিভিটি
+                    </h3>
+                    <span class="text-xs text-pink-400 font-extrabold px-2.5 py-0.5 rounded-full bg-pink-500/10 border border-pink-500/30" id="weeklyScore">স্কোর: ৮৫%</span>
+                </div>
+                <div class="h-40 w-full">
+                    <canvas id="productivityChart"></canvas>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ACCOUNT & PROFILE MODAL -->
+    <div id="accountModal" class="fixed inset-0 z-50 bg-[#030712]/85 backdrop-blur-md flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle">
+        <div class="glass-panel-routine w-full max-w-md p-6 rounded-2xl relative max-h-[90vh] overflow-y-auto">
+            <button type="button" class="modal-close absolute top-4 right-4 p-2 text-slate-400 hover:text-white" data-modal="accountModal" aria-label="Close">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- AUTH FORM CONTAINER (When not logged in) -->
+            <div id="authFormContainer">
+                <div class="flex items-center space-x-2.5 mb-1">
+                    <div class="p-2 bg-blue-600/20 text-blue-400 rounded-xl border border-blue-500/30">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 id="accountModalTitle" class="text-xl font-extrabold text-white">লগইন</h2>
+                        <p id="accountModalDesc" class="text-xs text-slate-400">আপনার অ্যাকাউন্টে প্রবেশ করুন অথবা নতুন অ্যাকাউন্ট নিবন্ধন করুন।</p>
+                    </div>
+                </div>
+
+                <!-- Mode Switch Tabs -->
+                <div class="grid grid-cols-2 gap-2 my-4 bg-[#030712] p-1 rounded-xl border border-blue-500/20">
+                    <button type="button" id="signupModeBtn" class="px-3 py-2 rounded-lg bg-blue-600 text-white text-xs font-bold transition flex items-center justify-center space-x-1.5 shadow">
+                        <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                        <span id="signupTabLabel">সাইন আপ / রেজিস্ট্রেশন</span>
+                    </button>
+                    <button type="button" id="loginModeBtn" class="px-3 py-2 rounded-lg text-slate-300 text-xs font-bold transition flex items-center justify-center space-x-1.5 hover:text-white">
+                        <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+                        <span id="loginTabLabel">লগইন</span>
+                    </button>
+                </div>
+
+                <form id="accountForm" class="space-y-3">
+                    <!-- Name Field (Sign Up Only) -->
+                    <div id="nameFieldGroup" class="hidden">
+                        <label class="block text-xs font-semibold text-slate-300" for="accountName">
+                            <span id="accountNameLabel">পুরো নাম</span>
+                            <div class="relative mt-1">
+                                <i data-lucide="user" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input id="accountName" type="text" autocomplete="name" placeholder="যেমন: সাকিব আহমেদ" class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#030712] border border-blue-500/30 text-sm text-white focus:outline-none focus:border-blue-400">
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300" for="accountEmail">
+                            <span id="accountEmailLabel">ইমেইল ঠিকানা</span>
+                            <div class="relative mt-1">
+                                <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input id="accountEmail" type="email" autocomplete="email" required placeholder="name@example.com" class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#030712] border border-blue-500/30 text-sm text-white focus:outline-none focus:border-blue-400">
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300" for="accountPassword">
+                            <span id="accountPasswordLabel">পাসওয়ার্ড</span>
+                            <div class="relative mt-1">
+                                <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input id="accountPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="••••••••" class="w-full pl-9 pr-10 py-2.5 rounded-xl bg-[#030712] border border-blue-500/30 text-sm text-white focus:outline-none focus:border-blue-400">
+                                <button type="button" id="togglePasswordVisibility" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1" aria-label="Toggle password visibility">
+                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Confirm Password Field (Sign Up Only) -->
+                    <div id="confirmPasswordField" class="hidden">
+                        <label class="block text-xs font-semibold text-slate-300" for="accountPasswordConfirm">
+                            <span id="accountConfirmPasswordLabel">পাসওয়ার্ড নিশ্চিত করুন</span>
+                            <div class="relative mt-1">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input id="accountPasswordConfirm" type="password" autocomplete="new-password" minlength="6" placeholder="••••••••" class="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#030712] border border-blue-500/30 text-sm text-white focus:outline-none focus:border-blue-400">
+                            </div>
+                        </label>
+                    </div>
+
+                    <button id="accountSubmitBtn" type="submit" class="w-full mt-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold shadow-lg shadow-blue-600/30 transition flex items-center justify-center space-x-1.5">
+                        <i id="submitBtnIcon" data-lucide="log-in" class="w-4 h-4"></i>
+                        <span id="submitBtnText">লগইন করুন</span>
+                    </button>
+                </form>
+
+                <!-- Feedback status box -->
+                <div id="accountStatusBox" class="hidden mt-3 p-3 rounded-xl text-xs font-semibold text-center" role="alert"></div>
+
+                <!-- Toggle Mode Link -->
+                <div class="text-center mt-4 pt-3 border-t border-slate-800">
+                    <button type="button" id="switchAuthModeBtn" class="text-xs text-blue-400 hover:text-blue-300 hover:underline font-medium">
+                        <span id="switchAuthModeText">অ্যাকাউন্ট নেই? নতুন সাইন আপ / রেজিস্ট্রেশন করুন</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOGGED IN USER PROFILE VIEW (When logged in) -->
+            <div id="userProfileView" class="hidden space-y-4">
+                <div class="flex items-center space-x-2.5 mb-1">
+                    <div class="p-2 bg-emerald-600/20 text-emerald-400 rounded-xl border border-emerald-500/30">
+                        <i data-lucide="user-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 id="profileModalTitle" class="text-xl font-extrabold text-white">আমার প্রোফাইল</h2>
+                        <p id="profileModalDesc" class="text-xs text-slate-400">আপনার অ্যাকাউন্ট তথ্য ও রুটিন অগ্রগতি।</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3.5 p-4 rounded-xl bg-blue-950/40 border border-blue-500/30">
+                    <div id="profileAvatar" class="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-lg font-bold text-white shadow-lg shadow-blue-500/30 flex-shrink-0">
+                        U
+                    </div>
+                    <div class="overflow-hidden">
+                        <h3 id="profileName" class="text-base font-bold text-white truncate">ব্যবহারকারী</h3>
+                        <p id="profileEmail" class="text-xs text-slate-400 truncate">user@example.com</p>
+                        <span class="inline-flex items-center px-2 py-0.5 mt-1 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                            <i data-lucide="shield" class="w-3 h-3 mr-1"></i>
+                            <span id="profileStatusBadge">সক্রিয় অ্যাকাউন্ট</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <div class="p-3 rounded-xl bg-[#030712] border border-blue-500/20">
+                        <div class="text-[11px] text-slate-400" id="profileCompletedLabel">সম্পন্ন রুটিন</div>
+                        <div id="profileCompletedTasks" class="text-xl font-black text-blue-400 mt-0.5">০</div>
+                    </div>
+                    <div class="p-3 rounded-xl bg-[#030712] border border-amber-500/20">
+                        <div class="text-[11px] text-slate-400" id="profileStreakLabel">বর্তমান স্ট্রিক</div>
+                        <div id="profileStreak" class="text-xl font-black text-amber-400 mt-0.5">০ দিন</div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="button" id="logoutBtn" class="w-full py-2.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-400 hover:text-rose-300 text-xs font-bold transition flex items-center justify-center space-x-1.5">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        <span id="logoutBtnText">লগআউট করুন</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModal" class="fixed inset-0 z-50 bg-[#030712]/85 backdrop-blur-md flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+        <div class="glass-panel-routine w-full max-w-lg p-6 rounded-2xl relative max-h-[90vh] overflow-y-auto">
+            <button type="button" class="modal-close absolute top-4 right-4 p-2 text-slate-400 hover:text-white" data-modal="settingsModal" aria-label="Close">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="flex items-center space-x-2.5 mb-1">
+                <div class="p-2 bg-blue-600/20 text-blue-400 rounded-xl border border-blue-500/30">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 id="settingsModalTitle" class="text-xl font-extrabold text-white">অ্যাপ সেটিংস</h2>
+                    <p id="settingsModalDesc" class="text-xs text-slate-400">পছন্দের ভাষা, থিম, টাইমার এবং নোটিফিকেশন কনফিগার করুন।</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 mt-4">
+                <!-- SECTION 1: ACCOUNT & PROFILE -->
+                <div class="p-3.5 rounded-xl bg-[#030712] border border-blue-500/20">
+                    <div class="text-[11px] font-bold text-blue-400 uppercase tracking-wider mb-2 flex items-center">
+                        <i data-lucide="user" class="w-3.5 h-3.5 mr-1.5"></i>
+                        <span id="secAccountTitle">ব্যবহারকারী ও অ্যাকাউন্ট</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="overflow-hidden">
+                            <div id="settingsUserStatus" class="text-xs font-bold text-white truncate">গেস্ট মোড</div>
+                            <div id="settingsUserEmail" class="text-[11px] text-slate-400 truncate">তথ্য লোকাল মেমোরিতে সংরক্ষিত আছে</div>
+                        </div>
+                        <button type="button" id="settingsUserBtn" class="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex-shrink-0">
+                            লগইন / সাইন আপ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: APPEARANCE & LANGUAGE -->
+                <div class="p-3.5 rounded-xl bg-[#030712] border border-blue-500/20 space-y-3">
+                    <div class="text-[11px] font-bold text-blue-400 uppercase tracking-wider mb-1 flex items-center">
+                        <i data-lucide="palette" class="w-3.5 h-3.5 mr-1.5"></i>
+                        <span id="secAppearanceTitle">ভাষা ও ডিসপ্লে</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="block text-xs font-semibold text-slate-300" for="settingsLanguage">
+                            <span id="settingsLanguageLabel">ভাষা (Language)</span>
+                            <select id="settingsLanguage" class="mt-1 w-full px-3 py-2 rounded-xl bg-[#0b0f19] border border-blue-500/30 text-xs text-white focus:outline-none focus:border-blue-400">
+                                <option value="bn">বাংলা (Bengali)</option>
+                                <option value="en">English (US)</option>
+                            </select>
+                        </label>
+                        <label class="block text-xs font-semibold text-slate-300" for="settingsTheme">
+                            <span id="settingsThemeLabel">থিম (Theme)</span>
+                            <select id="settingsTheme" class="mt-1 w-full px-3 py-2 rounded-xl bg-[#0b0f19] border border-blue-500/30 text-xs text-white focus:outline-none focus:border-blue-400">
+                                <option value="dark">ডার্ক মোড (Dark)</option>
+                                <option value="light">লাইট মোড (Light)</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: FOCUS TIMER PREFERENCES -->
+                <div class="p-3.5 rounded-xl bg-[#030712] border border-blue-500/20 space-y-3">
+                    <div class="text-[11px] font-bold text-blue-400 uppercase tracking-wider mb-1 flex items-center">
+                        <i data-lucide="timer" class="w-3.5 h-3.5 mr-1.5"></i>
+                        <span id="secTimerTitle">পোমোডোরো টাইমার সেটিংস</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="block text-xs font-semibold text-slate-300" for="settingsDefaultDuration">
+                            <span id="defaultDurationLabel">ডিফল্ট ফোকাস সময়</span>
+                            <select id="settingsDefaultDuration" class="mt-1 w-full px-3 py-2 rounded-xl bg-[#0b0f19] border border-blue-500/30 text-xs text-white focus:outline-none focus:border-blue-400">
+                                <option value="15">১৫ মিনিট</option>
+                                <option value="25" selected>২৫ মিনিট (স্ট্যান্ডার্ড)</option>
+                                <option value="30">৩০ মিনিট</option>
+                                <option value="45">৪৫ মিনিট (ডিপ ফোকাস)</option>
+                                <option value="60">৬০ মিনিট (১ ঘণ্টা)</option>
+                            </select>
+                        </label>
+                        <label class="block text-xs font-semibold text-slate-300" for="settingsBreakDuration">
+                            <span id="breakDurationLabel">শর্ট ব্রেক সময়</span>
+                            <select id="settingsBreakDuration" class="mt-1 w-full px-3 py-2 rounded-xl bg-[#0b0f19] border border-blue-500/30 text-xs text-white focus:outline-none focus:border-blue-400">
+                                <option value="5" selected>৫ মিনিট</option>
+                                <option value="10">১০ মিনিট</option>
+                                <option value="15">১৫ মিনিট</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: SOUND & NOTIFICATIONS -->
+                <div class="p-3.5 rounded-xl bg-[#030712] border border-blue-500/20 space-y-3">
+                    <div class="text-[11px] font-bold text-blue-400 uppercase tracking-wider mb-1 flex items-center">
+                        <i data-lucide="bell" class="w-3.5 h-3.5 mr-1.5"></i>
+                        <span id="secSoundTitle">শব্দ ও নোটিফিকেশন অ্যালার্ট</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="pr-2">
+                            <span id="chimeToggleLabel" class="text-xs font-semibold text-slate-300 block">টাইমার শেষ হলে সাউন্ড অ্যালার্ম বাজবে</span>
+                            <span id="chimeToggleSubtext" class="text-[10px] text-slate-400 block">সেশন সমাপ্তিতে ডিজিটাল চাইম সাউন্ড হবে</span>
+                        </div>
+                        <input id="settingsChimeToggle" type="checkbox" checked class="w-5 h-5 accent-blue-600 rounded cursor-pointer">
+                    </div>
+                    <div class="pt-1">
+                        <button type="button" id="testSoundBtn" class="px-3 py-1.5 rounded-lg bg-blue-950/60 hover:bg-blue-900/60 border border-blue-500/30 text-blue-300 text-xs font-bold transition flex items-center">
+                            <i data-lucide="volume-2" class="w-3.5 h-3.5 mr-1.5"></i>
+                            <span id="testSoundBtnText">সাউন্ড টেস্ট করুন</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SECTION 5: ROUTINES & DATA AUTOMATION -->
+                <div class="p-3.5 rounded-xl bg-[#030712] border border-blue-500/20 space-y-3">
+                    <div class="text-[11px] font-bold text-blue-400 uppercase tracking-wider mb-1 flex items-center">
+                        <i data-lucide="database" class="w-3.5 h-3.5 mr-1.5"></i>
+                        <span id="secDataTitle">রুটিন ডাটা ও অটোমেশন</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="pr-2">
+                            <span id="autoResetLabel" class="text-xs font-semibold text-slate-300 block">প্রতিদিন স্বয়ংক্রিয় রুটিন রিসেট</span>
+                            <span id="autoResetSubtext" class="text-[10px] text-slate-400 block">মধ্যরাতে টিকচিহ্নগুলো নতুন দিনের জন্য রিসেট হবে</span>
+                        </div>
+                        <input id="settingsAutoResetToggle" type="checkbox" class="w-5 h-5 accent-blue-600 rounded cursor-pointer">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-2">
+                        <button type="button" id="exportDataBtn" class="px-3 py-2 rounded-xl bg-blue-950/80 hover:bg-blue-900/80 border border-blue-500/30 text-white text-xs font-bold transition flex items-center justify-center">
+                            <i data-lucide="download" class="w-3.5 h-3.5 mr-1.5 text-blue-400"></i>
+                            <span id="exportDataBtnText">ডাটা ব্যাকআপ</span>
+                        </button>
+                        <button type="button" id="importDataBtn" class="px-3 py-2 rounded-xl bg-blue-950/80 hover:bg-blue-900/80 border border-blue-500/30 text-white text-xs font-bold transition flex items-center justify-center">
+                            <i data-lucide="upload" class="w-3.5 h-3.5 mr-1.5 text-blue-400"></i>
+                            <span id="importDataBtnText">ডাটা রিস্টোর</span>
+                        </button>
+                    </div>
+
+                    <div class="pt-1">
+                        <button type="button" id="resetAllDataBtn" class="w-full py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/30 text-rose-400 text-xs font-bold transition flex items-center justify-center">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1.5"></i>
+                            <span id="resetAllDataBtnText">সমস্ত ডাটা রিসেট করুন</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN SOCIAL MEDIA BLOCK SIMULATION OVERLAY -->
+    <div id="blockOverlay" class="fixed inset-0 z-50 bg-[#030712]/98 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center hidden">
+        <div class="p-4 bg-rose-500/20 rounded-full border border-rose-500/40 text-rose-500 mb-4 animate-bounce">
+            <i data-lucide="shield-alert" class="w-12 h-12"></i>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white mb-2" id="blockModalTitle">সাইটটি ব্লক করা হয়েছে!</h2>
+        <p class="text-slate-300 max-w-md text-sm mb-6 leading-relaxed" id="blockModalMsg">
+            আপনি বর্তমানে <span id="blockedAppName" class="font-extrabold text-amber-400">Social Media</span> ওয়েবসাইট অ্যাক্সেস করতে চেষ্টা করছেন। আপনার ফোকাস রুটিন বজায় রাখুন এবং লক্ষ্য অর্জন করুন!
+        </p>
+
+        <div class="p-4 bg-[#0b0f19] border border-blue-500/30 rounded-xl max-w-sm w-full mb-6 text-left">
+            <div class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-1">অনুপ্রেরণামূলক বাণী:</div>
+            <p id="motivationalQuote" class="text-xs italic text-slate-300">
+                "সাফল্য কোনো দুর্ঘটনাক্রমে আসে না। এটি কঠোর পরিশ্রম ও শৃঙ্খলার ফল।"
+            </p>
+        </div>
+
+        <button onclick="closeBlockOverlay()" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/40 transition flex items-center">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> <span id="backToWorkBtn">কাজে ফিরে যান</span>
+        </button>
+    </div>
+
+    <!-- APPLICATION LOGIC & JAVASCRIPT -->
+    <script>
+        // --- TRANSLATION DICTIONARY ---
+        const translations = {
+            bn: {
+                subHeaderDesc: "রুটিন প্ল্যানার ও সোশ্যাল মিডিয়া ব্লকার",
+                langLabel: "English",
+                accountBtnText: "সাইন আপ / লগইন",
+                settingsLabel: "সেটিংস",
+                accountModalDesc: "নতুন অ্যাকাউন্ট তৈরি করুন অথবা আপনার অ্যাকাউন্টে প্রবেশ করুন।",
+                loginLabel: "লগইন",
+                signupLabel: "সাইন আপ / রেজিস্ট্রেশন",
+                loginTabLabel: "লগইন",
+                signupTabLabel: "সাইন আপ / রেজিস্ট্রেশন",
+                accountNameLabel: "পুরো নাম",
+                namePlaceholder: "যেমন: সাকিব আহমেদ",
+                accountEmailLabel: "ইমেইল ঠিকানা",
+                accountPasswordLabel: "পাসওয়ার্ড",
+                accountConfirmPasswordLabel: "পাসওয়ার্ড নিশ্চিত করুন",
+                loginSubmit: "লগইন করুন",
+                signupSubmit: "সাইন আপ সম্পন্ন করুন",
+                switchAuthToSignup: "নতুন অ্যাকাউন্ট তৈরি করতে চান? সাইন আপ করুন",
+                switchAuthToLogin: "ইতিমধ্যে অ্যাকাউন্ট আছে? এখানে লগইন করুন",
+                loginSuccess: "স্বাগতম! সফলভাবে লগইন হয়েছে।",
+                signupSuccess: "অভিনন্দন! আপনার অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে।",
+                userAlreadyExists: "এই ইমেইল দিয়ে আগেই অ্যাকাউন্ট তৈরি করা আছে।",
+                invalidCredentials: "ভুল ইমেইল বা পাসওয়ার্ড প্রদান করা হয়েছে।",
+                passwordMismatch: "দুটি পাসওয়ার্ড মেলেনি।",
+                passwordTooShort: "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।",
+                nameRequired: "অনুগ্রহ করে আপনার পুরো নাম লিখুন।",
+                guestUser: "গেস্ট মোড",
+                guestSubtext: "তথ্য লোকাল মেমোরিতে সংরক্ষিত আছে",
+                logoutBtn: "লগআউট",
+                logoutConfirm: "আপনি কি নিশ্চিতভাবে লগআউট করতে চান?",
+                logoutSuccess: "সফলভাবে লগআউট করা হয়েছে।",
+                profileModalTitle: "আমার প্রোফাইল",
+                profileModalDesc: "আপনার অ্যাকাউন্ট তথ্য ও রুটিন অগ্রগতি।",
+                profileCompletedLabel: "সম্পন্ন রুটিন",
+                profileStreakLabel: "বর্তমান স্ট্রিক",
+                profileStatusBadge: "সক্রিয় অ্যাকাউন্ট",
+                settingsModalTitle: "অ্যাপ সেটিংস",
+                settingsModalDesc: "পছন্দের ভাষা, থিম, টাইমার এবং নোটিফিকেশন কনফিগার করুন।",
+                secAccountTitle: "ব্যবহারকারী ও অ্যাকাউন্ট",
+                secAppearanceTitle: "ভাষা ও ডিসপ্লে",
+                secTimerTitle: "পোমোডোরো টাইমার সেটিংস",
+                secSoundTitle: "শব্দ ও নোটিফিকেশন অ্যালার্ট",
+                secDataTitle: "রুটিন ডাটা ও অটোমেশন",
+                settingsLanguageLabel: "ভাষা (Language)",
+                settingsThemeLabel: "থিম (Theme)",
+                darkTheme: "ডার্ক মোড",
+                lightTheme: "লাইট মোড",
+                defaultDurationLabel: "ডিফল্ট ফোকাস সময়",
+                breakDurationLabel: "শর্ট ব্রেক সময়",
+                chimeToggleLabel: "টাইমার শেষ হলে সাউন্ড অ্যালার্ম বাজবে",
+                chimeToggleSubtext: "সেশন সমাপ্তিতে ডিজিটাল চাইম সাউন্ড হবে",
+                testSoundBtnText: "সাউন্ড টেস্ট করুন",
+                autoResetLabel: "প্রতিদিন স্বয়ংক্রিয় রুটিন রিসেট",
+                autoResetSubtext: "মধ্যরাতে টিকচিহ্নগুলো নতুন দিনের জন্য রিসেট হবে",
+                exportDataBtnText: "ডাটা ব্যাকআপ",
+                importDataBtnText: "ডাটা রিস্টোর",
+                resetAllDataBtnText: "সমস্ত ডাটা রিসেট করুন",
+                resetDataConfirm: "সতর্কতা: আপনার সমস্ত সংরক্ষিত রুটিন ও স্ট্রিক মুছে যাবে! আপনি কি রিসেট করতে চান?",
+                dataResetSuccess: "সমস্ত ডাটা সফলভাবে রিসেট করা হয়েছে।",
+                exportSuccess: "আপনার সমস্ত রুটিন ডাটা ক্লিপবোর্ডে কপি করা হয়েছে!",
+                copyDataPrompt: "আপনার ব্যাকআপ ডাটা কপি করে সংরক্ষণ করুন:",
+                importPrompt: "আপনার ব্যাকআপকৃত JSON ডাটা এখানে পেস্ট করুন:",
+                importSuccess: "ডাটা সফলভাবে রিস্টোর হয়েছে!",
+                invalidImportData: "ভুল ফরম্যাটের ডাটা! অনুগ্রহ করে সঠিক ব্যাকআপ কোড দিন।",
+                quickFocusLabel: "ফোকাস মোড",
+                todayHeadline: "আজকের অগ্রগতি",
+                streakText: "দিন স্ট্রিক",
+                completedRatioText: "সম্পন্ন",
+                addBtnText: "যোগ করুন",
+                taskTitlePlaceholder: "নতুন টাস্ক বা রুটিন নাম...",
+                pomodoroHeader: "পোমোডোরো ফোকাস টাইমার",
+                pomodoroSubHeader: "মনোযোগ ধরে রাখতে ও সোশ্যাল মিডিয়া মুক্ত থাকতে সময় সেট করুন",
+                startBtnText: "শুরু করুন",
+                pauseBtnText: "থামুন",
+                resetBtnText: "রিসেট",
+                blockerTitle: "সোশ্যাল মিডিয়া ব্লকার",
+                blockerDesc: "শুধু ডেমো overlay দেখায়; এটি অন্য অ্যাপ বা ওয়েবসাইট ব্লক করে না।",
+                soundTitle: "অ্যাম্বিয়েন্ট সাউন্ড (Focus Music)",
+                analyticsTitle: "সাপ্তাহিক প্রোডাক্টিভিটি",
+                weeklyScore: "স্কোর: ৮৫%",
+                blockModalTitle: "সাইটটি ব্লক করা হয়েছে!",
+                backToWorkBtn: "কাজে ফিরে যান",
+                quotes: [
+                    "\"সাফল্য কোনো হঠাৎ ঘটা ঘটনা নয়, এটি প্রতিদিনের সঠিক অনুশীলনের ফল।\"",
+                    "\"সোশ্যাল মিডিয়ার সাময়িক আনন্দ আপনার ভবিষ্যতের সময় নষ্ট করছে না তো?\"",
+                    "\"এক সময়ে একটি মাত্র কাজে মনোযোগ দিন, অসাধারণ ফলাফল পাবেন।\""
+                ]
+            },
+            en: {
+                subHeaderDesc: "Routine Planner & Social Media Blocker",
+                langLabel: "বাংলা",
+                accountBtnText: "Sign up / Log in",
+                settingsLabel: "Settings",
+                accountModalDesc: "Create a new account or log in to your existing account.",
+                loginLabel: "Log in",
+                signupLabel: "Sign up / Register",
+                loginTabLabel: "Log in",
+                signupTabLabel: "Sign up / Register",
+                accountNameLabel: "Full Name",
+                namePlaceholder: "e.g. John Doe",
+                accountEmailLabel: "Email Address",
+                accountPasswordLabel: "Password",
+                accountConfirmPasswordLabel: "Confirm Password",
+                loginSubmit: "Log in",
+                signupSubmit: "Complete Sign up",
+                switchAuthToSignup: "Don't have an account? Sign up here",
+                switchAuthToLogin: "Already have an account? Log in here",
+                loginSuccess: "Welcome back! Logged in successfully.",
+                signupSuccess: "Congratulations! Your account has been created.",
+                userAlreadyExists: "An account with this email already exists.",
+                invalidCredentials: "Invalid email or password.",
+                passwordMismatch: "The passwords do not match.",
+                passwordTooShort: "Password must be at least 6 characters.",
+                nameRequired: "Please enter your full name.",
+                guestUser: "Guest Mode",
+                guestSubtext: "Data is saved in local browser storage",
+                logoutBtn: "Log out",
+                logoutConfirm: "Are you sure you want to log out?",
+                logoutSuccess: "Logged out successfully.",
+                profileModalTitle: "My Profile",
+                profileModalDesc: "Your account details and routine progress.",
+                profileCompletedLabel: "Completed Routines",
+                profileStreakLabel: "Current Streak",
+                profileStatusBadge: "Active Account",
+                settingsModalTitle: "App Settings",
+                settingsModalDesc: "Configure your language, theme, timer, and notifications.",
+                secAccountTitle: "User & Account",
+                secAppearanceTitle: "Appearance & Language",
+                secTimerTitle: "Pomodoro Timer Settings",
+                secSoundTitle: "Sound & Notification Alerts",
+                secDataTitle: "Routine Data & Automation",
+                settingsLanguageLabel: "Language",
+                settingsThemeLabel: "Theme",
+                darkTheme: "Dark Mode",
+                lightTheme: "Light Mode",
+                defaultDurationLabel: "Default Focus Time",
+                breakDurationLabel: "Short Break Time",
+                chimeToggleLabel: "Sound alarm when timer finishes",
+                chimeToggleSubtext: "Plays a digital chime sound at the end of session",
+                testSoundBtnText: "Test Sound",
+                autoResetLabel: "Auto-reset routines daily",
+                autoResetSubtext: "Resets completed checkboxes at midnight for the new day",
+                exportDataBtnText: "Backup Data",
+                importDataBtnText: "Restore Data",
+                resetAllDataBtnText: "Reset All Data",
+                resetDataConfirm: "Warning: All your saved routines and streak will be reset! Do you want to proceed?",
+                dataResetSuccess: "All data has been reset to defaults.",
+                exportSuccess: "Routine data copied to clipboard!",
+                copyDataPrompt: "Copy your backup JSON data:",
+                importPrompt: "Paste your backup JSON data here:",
+                importSuccess: "Data restored successfully!",
+                invalidImportData: "Invalid data format! Please provide valid backup JSON.",
+                quickFocusLabel: "Focus Mode",
+                todayHeadline: "Today's Progress",
+                streakText: "Day Streak",
+                completedRatioText: "Completed",
+                addBtnText: "Add Task",
+                taskTitlePlaceholder: "New routine or habit title...",
+                pomodoroHeader: "Pomodoro Focus Timer",
+                pomodoroSubHeader: "Set timer to maintain deep focus & stay off social media",
+                startBtnText: "Start",
+                pauseBtnText: "Pause",
+                resetBtnText: "Reset",
+                blockerTitle: "Social Media Blocker",
+                blockerDesc: "Demo overlay only; this does not block other apps or websites.",
+                soundTitle: "Ambient Focus Sounds",
+                analyticsTitle: "Weekly Productivity",
+                weeklyScore: "Score: 85%",
+                blockModalTitle: "Site Access Blocked!",
+                backToWorkBtn: "Return to Focus",
+                quotes: [
+                    "\"Success isn't accidental; it is the result of consistent daily habits.\"",
+                    "\"Don't trade your long-term goals for short-term scrolling.\"",
+                    "\"Focus on one thing at a time to achieve extraordinary outcomes.\""
+                ]
+            }
+        };
+
+        // --- APP STATE PERSISTENCE ---
+        let currentLang = localStorage.getItem('ff_lang') || 'bn';
+        let currentTheme = localStorage.getItem('ff_theme') || 'dark';
+        let routines = JSON.parse(localStorage.getItem('ff_routines')) || [
+            { id: 1, title: 'সকালের ব্যায়াম ও মেডিটেশন', category: 'morning', time: '07:00', completed: true },
+            { id: 2, title: 'গুরুত্বপূর্ণ প্রজেক্ট কোডিং/পড়াশোনা', category: 'afternoon', time: '11:00', completed: false },
+            { id: 3, title: 'বই পড়া ও নতুন স্কিল শেখা', category: 'evening', time: '18:00', completed: false },
+            { id: 4, title: 'দৈনিক কাজের মূল্যায়ন ও ঘুম', category: 'night', time: '22:30', completed: false }
+        ];
+        const savedStreak = Number.parseInt(localStorage.getItem('ff_streak'), 10);
+        let streak = Number.isFinite(savedStreak) && savedStreak >= 0 ? savedStreak : 5;
+
+        // Saved Timer Preference
+        const savedDurationPref = Number.parseInt(localStorage.getItem('ff_timer_pref'), 10);
+        let initialTimerDuration = (Number.isFinite(savedDurationPref) && savedDurationPref > 0 ? savedDurationPref : 25) * 60;
+        let timerSeconds = initialTimerDuration;
+        let timerInterval = null;
+        let isTimerRunning = false;
+        let currentFilter = 'all';
+        let accountMode = 'signup';
+
+        // --- AUDIO SYNTHESIS / AMBIENT SOUND ---
+        let audioCtx = null;
+        let currentSoundNode = null;
+
+        // --- DOM INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            checkDailyAutoReset();
+            lucide.createIcons();
+            applyTheme(currentTheme);
+            applyLanguage(currentLang);
+            updateAuthUI();
+            updateDateDisplay();
+            renderRoutines('all');
+            initChart();
+            setupEventListeners();
+        });
+
+        // --- EVENT LISTENERS SETUP ---
+        function setupEventListeners() {
+            const blockerToggle = document.getElementById('globalBlockerToggle');
+            blockerToggle.checked = localStorage.getItem('ff_blocker_enabled') === 'true';
+            updateBlockerTestButtons();
+            blockerToggle.addEventListener('change', () => {
+                localStorage.setItem('ff_blocker_enabled', blockerToggle.checked);
+                updateBlockerTestButtons();
+            });
+
+            // Theme Toggle
+            document.getElementById('themeToggleBtn').addEventListener('click', () => {
+                currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('ff_theme', currentTheme);
+                applyTheme(currentTheme);
+            });
+
+            // Language Toggle
+            document.getElementById('langToggleBtn').addEventListener('click', () => {
+                currentLang = currentLang === 'bn' ? 'en' : 'bn';
+                localStorage.setItem('ff_lang', currentLang);
+                applyLanguage(currentLang);
+                updateDateDisplay();
+            });
+
+            document.getElementById('accountBtn').addEventListener('click', () => {
+                const user = JSON.parse(localStorage.getItem('ff_current_user'));
+                if (user) {
+                    updateAuthUI();
+                    openModal('accountModal');
+                } else {
+                    setAuthMode('signup');
+                    openModal('accountModal');
+                }
+            });
+            document.getElementById('settingsBtn').addEventListener('click', () => {
+                updateSettingsUI();
+                openModal('settingsModal');
+            });
+            document.getElementById('loginModeBtn').addEventListener('click', () => setAuthMode('login'));
+            document.getElementById('signupModeBtn').addEventListener('click', () => setAuthMode('signup'));
+            document.getElementById('switchAuthModeBtn').addEventListener('click', () => {
+                setAuthMode(accountMode === 'login' ? 'signup' : 'login');
+            });
+
+            document.getElementById('togglePasswordVisibility').addEventListener('click', () => {
+                const pwd = document.getElementById('accountPassword');
+                pwd.type = pwd.type === 'password' ? 'text' : 'password';
+                const icon = document.querySelector('#togglePasswordVisibility i');
+                if (icon) {
+                    icon.setAttribute('data-lucide', pwd.type === 'password' ? 'eye' : 'eye-off');
+                    lucide.createIcons();
+                }
+            });
+
+            document.getElementById('accountForm').addEventListener('submit', handleAuthSubmit);
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            document.getElementById('settingsUserBtn').addEventListener('click', () => {
+                const user = JSON.parse(localStorage.getItem('ff_current_user'));
+                if (user) {
+                    handleLogout();
+                } else {
+                    closeModal('settingsModal');
+                    setAuthMode('signup');
+                    openModal('accountModal');
+                }
+            });
+
+            document.getElementById('settingsLanguage').addEventListener('change', (e) => {
+                currentLang = e.target.value;
+                localStorage.setItem('ff_lang', currentLang);
+                applyLanguage(currentLang);
+                updateDateDisplay();
+            });
+            document.getElementById('settingsTheme').addEventListener('change', (e) => {
+                currentTheme = e.target.value;
+                localStorage.setItem('ff_theme', currentTheme);
+                applyTheme(currentTheme);
+            });
+            document.getElementById('settingsDefaultDuration').addEventListener('change', (e) => {
+                const mins = Number.parseInt(e.target.value, 10);
+                localStorage.setItem('ff_timer_pref', mins);
+                setTimerDuration(mins);
+            });
+            document.getElementById('settingsBreakDuration').addEventListener('change', (e) => {
+                localStorage.setItem('ff_break_pref', e.target.value);
+            });
+            document.getElementById('settingsChimeToggle').addEventListener('change', (e) => {
+                localStorage.setItem('ff_chime_enabled', e.target.checked);
+            });
+            document.getElementById('testSoundBtn').addEventListener('click', () => {
+                playTimerAlertSound();
+            });
+            document.getElementById('settingsAutoResetToggle').addEventListener('change', (e) => {
+                localStorage.setItem('ff_autoreset_daily', e.target.checked);
+            });
+            document.getElementById('exportDataBtn').addEventListener('click', exportAppData);
+            document.getElementById('importDataBtn').addEventListener('click', importAppData);
+            document.getElementById('resetAllDataBtn').addEventListener('click', resetAllAppData);
+
+            document.querySelectorAll('.modal-close').forEach(button => {
+                button.addEventListener('click', () => closeModal(button.dataset.modal));
+            });
+            document.querySelectorAll('#accountModal, #settingsModal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal(modal.id);
+                });
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal('accountModal');
+                    closeModal('settingsModal');
+                }
+            });
+
+            // Add Routine Task Form
+            document.getElementById('addRoutineForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const titleInput = document.getElementById('taskTitleInput');
+                const catInput = document.getElementById('taskCategoryInput');
+                const timeInput = document.getElementById('taskTimeInput');
+
+                if (!titleInput.value.trim()) return;
+
+                const newTask = {
+                    id: Date.now(),
+                    title: titleInput.value.trim(),
+                    category: catInput.value,
+                    time: timeInput.value,
+                    completed: false
+                };
+
+                routines.push(newTask);
+                saveRoutines();
+                renderRoutines();
+                titleInput.value = '';
+            });
+
+            // Filter Tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-tab').forEach(t => {
+                        t.classList.remove('bg-blue-600', 'text-white');
+                        t.classList.add('bg-[#0b0f19]', 'text-slate-300');
+                    });
+                    const filterTab = e.currentTarget;
+                    filterTab.classList.remove('bg-[#0b0f19]', 'text-slate-300');
+                    filterTab.classList.add('bg-blue-600', 'text-white');
+
+                    const filter = filterTab.getAttribute('data-filter');
+                    renderRoutines(filter);
+                });
+            });
+
+            // Timer Controls
+            document.getElementById('startTimerBtn').addEventListener('click', toggleTimer);
+            document.getElementById('resetTimerBtn').addEventListener('click', resetTimer);
+            document.getElementById('quickFocusBtn').addEventListener('click', () => {
+                setTimerDuration(25);
+                startTimer();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // Ambient Sound Buttons
+            document.getElementById('soundRainBtn').addEventListener('click', () => playAmbientSound('rain'));
+            document.getElementById('soundWhiteBtn').addEventListener('click', () => playAmbientSound('wind'));
+            document.getElementById('soundWavesBtn').addEventListener('click', () => playAmbientSound('waves'));
+        }
+
+        function updateBlockerTestButtons() {
+            const isEnabled = document.getElementById('globalBlockerToggle').checked;
+            document.querySelectorAll('.blocker-test-btn').forEach(button => {
+                button.disabled = !isEnabled;
+            });
+        }
+
+        // --- RENDER ROUTINES & PROGRESS ---
+        function renderRoutines(filter = currentFilter) {
+            currentFilter = filter;
+            const container = document.getElementById('routineListContainer');
+            container.innerHTML = '';
+
+            const filteredRoutines = filter === 'all' 
+                ? routines 
+                : routines.filter(r => r.category === filter);
+
+            if (filteredRoutines.length === 0) {
+                container.innerHTML = `
+                    <div class="glass-panel-routine p-8 rounded-2xl text-center text-slate-400">
+                        <i data-lucide="calendar-x" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+                        <p class="text-sm font-medium">কোনো রুটিন বা টাস্ক পাওয়া যায়নি</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                updateProgress();
+                return;
+            }
+
+            filteredRoutines.forEach(task => {
+                const item = document.createElement('div');
+                item.className = `glass-panel-routine p-3.5 rounded-xl flex items-center justify-between border-l-4 transition-all duration-200 ${
+                    task.completed ? 'border-blue-500 opacity-70 bg-[#070b12]' : 'border-slate-600 bg-[#0b0f19]'
+                }`;
+
+                item.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                            onchange="toggleTaskComplete(${task.id})"
+                            class="w-5 h-5 rounded border-slate-700 text-blue-600 focus:ring-blue-500 bg-[#030712] cursor-pointer">
+                        <div>
+                            <p class="text-sm font-bold text-white ${task.completed ? 'line-through text-slate-500' : ''}">
+                                ${escapeHtml(task.title)}
+                            </p>
+                            <div class="flex items-center space-x-2 text-[11px] text-slate-400 mt-0.5">
+                                <span class="capitalize flex items-center">
+                                    <i data-lucide="clock" class="w-3 h-3 mr-1 text-blue-400"></i> ${escapeHtml(String(task.time))}
+                                </span>
+                                <span>•</span>
+                                <span class="capitalize px-1.5 py-0.2 rounded bg-slate-900 text-slate-300 border border-slate-800">
+                                    ${escapeHtml(String(task.category))}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="deleteTask(${task.id})" class="p-1.5 text-slate-500 hover:text-rose-400 rounded-lg hover:bg-slate-900 transition">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                `;
+                container.appendChild(item);
+            });
+
+            lucide.createIcons();
+            updateProgress();
+        }
+
+        function toggleTaskComplete(id) {
+            routines = routines.map(task => {
+                if (task.id === id) {
+                    return { ...task, completed: !task.completed };
+                }
+                return task;
+            });
+            saveRoutines();
+            renderRoutines();
+        }
+
+        function deleteTask(id) {
+            routines = routines.filter(task => task.id !== id);
+            saveRoutines();
+            renderRoutines();
+        }
+
+        function saveRoutines() {
+            localStorage.setItem('ff_routines', JSON.stringify(routines));
+        }
+
+        function updateProgress() {
+            const total = routines.length;
+            const completed = routines.filter(r => r.completed).length;
+            const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+            document.getElementById('completedTasksRatio').innerText = `${completed}/${total}`;
+            document.getElementById('progressPercentText').innerText = `${percent}%`;
+            document.getElementById('streakCount').innerText = streak;
+
+            // SVG Circle Dash
+            const circle = document.getElementById('routineProgressCircle');
+            circle.setAttribute('stroke-dasharray', `${percent}, 100`);
+        }
+
+        // --- POMODORO TIMER LOGIC ---
+        function setTimerDuration(minutes) {
+            pauseTimer();
+            initialTimerDuration = minutes * 60;
+            timerSeconds = initialTimerDuration;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timerDisplay').innerText = 
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function toggleTimer() {
+            if (isTimerRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function startTimer() {
+            if (isTimerRunning) return;
+            isTimerRunning = true;
+
+            const badge = document.getElementById('focusStatusBadge');
+            badge.innerText = currentLang === 'bn' ? 'ফোকাস সক্রিয়' : 'FOCUS ACTIVE';
+            badge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-pulse';
+
+            document.getElementById('startBtnText').innerText = translations[currentLang].pauseBtnText;
+
+            timerInterval = setInterval(() => {
+                if (timerSeconds > 0) {
+                    timerSeconds--;
+                    updateTimerDisplay();
+                } else {
+                    pauseTimer();
+                    if (localStorage.getItem('ff_chime_enabled') !== 'false') {
+                        playTimerAlertSound();
+                    }
+                    alert(currentLang === 'bn' ? 'অভিনন্দন! আপনার ফোকাস সেশন সফলভাবে সম্পন্ন হয়েছে।' : 'Congratulations! Your focus session is complete.');
+                    streak += 1;
+                    localStorage.setItem('ff_streak', streak);
+                    updateProgress();
+                    updateProfileStats();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+
+            const badge = document.getElementById('focusStatusBadge');
+            badge.innerText = currentLang === 'bn' ? 'নিষ্ক্রিয়' : 'INACTIVE';
+            badge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-slate-800 text-slate-400 border border-slate-700';
+
+            document.getElementById('startBtnText').innerText = translations[currentLang].startBtnText;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = initialTimerDuration;
+            updateTimerDisplay();
+        }
+
+        // --- CHIME SOUND SYNTHESIS ---
+        function playTimerAlertSound() {
+            try {
+                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtxClass) return;
+                const ctx = new AudioCtxClass();
+                const now = ctx.currentTime;
+                const freqs = [523.25, 659.25, 783.99, 1046.50];
+                freqs.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                    gain.gain.setValueAtTime(0.2, now + idx * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + idx * 0.12);
+                    osc.stop(now + idx * 0.12 + 0.36);
+                });
+            } catch (err) {
+                console.error('Audio alert error:', err);
+            }
+        }
+
+        // --- DAILY AUTO RESET CHECK ---
+        function checkDailyAutoReset() {
+            const today = new Date().toDateString();
+            const lastDate = localStorage.getItem('ff_last_date');
+            const autoResetEnabled = localStorage.getItem('ff_autoreset_daily') === 'true';
+
+            if (lastDate && lastDate !== today && autoResetEnabled) {
+                routines = routines.map(task => ({ ...task, completed: false }));
+                localStorage.setItem('ff_routines', JSON.stringify(routines));
+            }
+            localStorage.setItem('ff_last_date', today);
+        }
+
+        // --- AUTH & PROFILE UI LOGIC ---
+        function updateAuthUI() {
+            const user = JSON.parse(localStorage.getItem('ff_current_user'));
+            const accountBtnText = document.getElementById('accountBtnText');
+            const accountBtnIcon = document.getElementById('accountBtnIcon');
+            const authFormContainer = document.getElementById('authFormContainer');
+            const userProfileView = document.getElementById('userProfileView');
+
+            if (user) {
+                const firstName = (user.name || '').trim().split(' ')[0] || user.email.split('@')[0];
+                accountBtnText.innerText = firstName;
+                if (accountBtnIcon) {
+                    accountBtnIcon.setAttribute('data-lucide', 'user-check');
+                    accountBtnIcon.className = 'w-4 h-4 text-emerald-400';
+                }
+                if (authFormContainer) authFormContainer.classList.add('hidden');
+                if (userProfileView) userProfileView.classList.remove('hidden');
+
+                const initials = (user.name || 'U').trim().split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                document.getElementById('profileAvatar').innerText = initials || 'U';
+                document.getElementById('profileName').innerText = user.name || 'ব্যবহারকারী';
+                document.getElementById('profileEmail').innerText = user.email;
+                updateProfileStats();
+            } else {
+                accountBtnText.innerText = translations[currentLang].accountBtnText;
+                if (accountBtnIcon) {
+                    accountBtnIcon.setAttribute('data-lucide', 'user');
+                    accountBtnIcon.className = 'w-4 h-4 text-blue-400';
+                }
+                if (authFormContainer) authFormContainer.classList.remove('hidden');
+                if (userProfileView) userProfileView.classList.add('hidden');
+            }
+            updateSettingsUI();
+            lucide.createIcons();
+        }
+
+        function updateProfileStats() {
+            const completedCount = routines.filter(r => r.completed).length;
+            const completedEl = document.getElementById('profileCompletedTasks');
+            const streakEl = document.getElementById('profileStreak');
+            if (completedEl) completedEl.innerText = completedCount;
+            if (streakEl) streakEl.innerText = `${streak} ${translations[currentLang].streakText}`;
+        }
+
+        function updateSettingsUI() {
+            const user = JSON.parse(localStorage.getItem('ff_current_user'));
+            const userStatus = document.getElementById('settingsUserStatus');
+            const userEmail = document.getElementById('settingsUserEmail');
+            const userBtn = document.getElementById('settingsUserBtn');
+            const t = translations[currentLang];
+
+            if (user) {
+                if (userStatus) userStatus.innerText = user.name || t.profileStatusBadge;
+                if (userEmail) userEmail.innerText = user.email;
+                if (userBtn) {
+                    userBtn.innerText = t.logoutBtn;
+                    userBtn.className = 'px-3 py-1.5 rounded-lg bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-400 text-xs font-bold transition flex-shrink-0';
+                }
+            } else {
+                if (userStatus) userStatus.innerText = t.guestUser;
+                if (userEmail) userEmail.innerText = t.guestSubtext;
+                if (userBtn) {
+                    userBtn.innerText = t.loginLabel;
+                    userBtn.className = 'px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition flex-shrink-0';
+                }
+            }
+
+            const savedDuration = Number.parseInt(localStorage.getItem('ff_timer_pref'), 10) || 25;
+            const defaultDurationSelect = document.getElementById('settingsDefaultDuration');
+            if (defaultDurationSelect) defaultDurationSelect.value = String(savedDuration);
+
+            const breakSelect = document.getElementById('settingsBreakDuration');
+            if (breakSelect) breakSelect.value = localStorage.getItem('ff_break_pref') || '5';
+
+            const chimeToggle = document.getElementById('settingsChimeToggle');
+            if (chimeToggle) chimeToggle.checked = localStorage.getItem('ff_chime_enabled') !== 'false';
+
+            const autoResetToggle = document.getElementById('settingsAutoResetToggle');
+            if (autoResetToggle) autoResetToggle.checked = localStorage.getItem('ff_autoreset_daily') === 'true';
+        }
+
+        function setAuthMode(mode) {
+            accountMode = mode;
+            const t = translations[currentLang];
+            const isSignup = mode === 'signup';
+
+            const nameGroup = document.getElementById('nameFieldGroup');
+            const nameInput = document.getElementById('accountName');
+            const confirmField = document.getElementById('confirmPasswordField');
+            const confirmInput = document.getElementById('accountPasswordConfirm');
+            const loginButton = document.getElementById('loginModeBtn');
+            const signupButton = document.getElementById('signupModeBtn');
+            const submitBtnText = document.getElementById('submitBtnText');
+            const submitBtnIcon = document.getElementById('submitBtnIcon');
+            const switchBtnText = document.getElementById('switchAuthModeText');
+            const titleEl = document.getElementById('accountModalTitle');
+            const statusBox = document.getElementById('accountStatusBox');
+
+            if (statusBox) statusBox.classList.add('hidden');
+
+            titleEl.innerText = isSignup ? t.signupLabel : t.loginLabel;
+            if (submitBtnText) submitBtnText.innerText = isSignup ? t.signupSubmit : t.loginSubmit;
+            if (submitBtnIcon) submitBtnIcon.setAttribute('data-lucide', isSignup ? 'user-plus' : 'log-in');
+            if (switchBtnText) switchBtnText.innerText = isSignup ? t.switchAuthToLogin : t.switchAuthToSignup;
+
+            nameGroup.classList.toggle('hidden', !isSignup);
+            nameInput.required = isSignup;
+            confirmField.classList.toggle('hidden', !isSignup);
+            confirmInput.required = isSignup;
+            document.getElementById('accountPassword').autocomplete = isSignup ? 'new-password' : 'current-password';
+
+            const activeClasses = ['bg-blue-600', 'text-white'];
+            const inactiveClasses = ['text-slate-300'];
+
+            if (isSignup) {
+                signupButton.classList.add(...activeClasses);
+                signupButton.classList.remove(...inactiveClasses);
+                loginButton.classList.remove(...activeClasses);
+                loginButton.classList.add(...inactiveClasses);
+            } else {
+                loginButton.classList.add(...activeClasses);
+                loginButton.classList.remove(...inactiveClasses);
+                signupButton.classList.remove(...activeClasses);
+                signupButton.classList.add(...inactiveClasses);
+            }
+
+            lucide.createIcons();
+        }
+
+        function showAuthStatus(msg, type) {
+            const statusBox = document.getElementById('accountStatusBox');
+            if (!statusBox) return;
+            statusBox.innerText = msg;
+            statusBox.classList.remove('hidden', 'bg-emerald-500/20', 'text-emerald-400', 'border-emerald-500/40', 'bg-rose-500/20', 'text-rose-400', 'border-rose-500/40');
+            if (type === 'success') {
+                statusBox.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border', 'border-emerald-500/40');
+            } else {
+                statusBox.classList.add('bg-rose-500/20', 'text-rose-400', 'border', 'border-rose-500/40');
+            }
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('accountEmail');
+            const passwordInput = document.getElementById('accountPassword');
+            const nameInput = document.getElementById('accountName');
+            const confirmInput = document.getElementById('accountPasswordConfirm');
+
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+            const name = nameInput ? nameInput.value.trim() : '';
+            const confirmPassword = confirmInput ? confirmInput.value : '';
+            const t = translations[currentLang];
+
+            let users = JSON.parse(localStorage.getItem('ff_users')) || [];
+
+            if (accountMode === 'signup') {
+                if (!name) {
+                    showAuthStatus(t.nameRequired, 'error');
+                    return;
+                }
+                if (password.length < 6) {
+                    showAuthStatus(t.passwordTooShort, 'error');
+                    return;
+                }
+                if (password !== confirmPassword) {
+                    showAuthStatus(t.passwordMismatch, 'error');
+                    return;
+                }
+                const existing = users.find(u => u.email === email);
+                if (existing) {
+                    showAuthStatus(t.userAlreadyExists, 'error');
+                    return;
+                }
+
+                const newUser = {
+                    id: 'usr_' + Date.now(),
+                    name: name,
+                    email: email,
+                    password: password,
+                    createdAt: new Date().toISOString()
+                };
+                users.push(newUser);
+                localStorage.setItem('ff_users', JSON.stringify(users));
+                localStorage.setItem('ff_current_user', JSON.stringify({ id: newUser.id, name: newUser.name, email: newUser.email }));
+
+                showAuthStatus(t.signupSuccess, 'success');
+                setTimeout(() => {
+                    closeModal('accountModal');
+                    updateAuthUI();
+                    passwordInput.value = '';
+                    if (confirmInput) confirmInput.value = '';
+                }, 1000);
+            } else {
+                const user = users.find(u => u.email === email && u.password === password);
+                if (!user) {
+                    showAuthStatus(t.invalidCredentials, 'error');
+                    return;
+                }
+
+                localStorage.setItem('ff_current_user', JSON.stringify({ id: user.id, name: user.name, email: user.email }));
+                showAuthStatus(t.loginSuccess, 'success');
+                setTimeout(() => {
+                    closeModal('accountModal');
+                    updateAuthUI();
+                    passwordInput.value = '';
+                }, 800);
+            }
+        }
+
+        function handleLogout() {
+            const t = translations[currentLang];
+            if (confirm(t.logoutConfirm)) {
+                localStorage.removeItem('ff_current_user');
+                updateAuthUI();
+                setAuthMode('login');
+                closeModal('accountModal');
+                closeModal('settingsModal');
+                alert(t.logoutSuccess);
+            }
+        }
+
+        // --- DATA BACKUP & RESET ---
+        function exportAppData() {
+            const t = translations[currentLang];
+            const data = {
+                routines: routines,
+                streak: streak,
+                exportedAt: new Date().toISOString()
+            };
+            const json = JSON.stringify(data, null, 2);
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(json).then(() => {
+                    alert(t.exportSuccess);
+                }).catch(() => {
+                    prompt(t.copyDataPrompt, json);
+                });
+            } else {
+                prompt(t.copyDataPrompt, json);
+            }
+        }
+
+        function importAppData() {
+            const t = translations[currentLang];
+            const json = prompt(t.importPrompt);
+            if (!json) return;
+            try {
+                const parsed = JSON.parse(json);
+                if (parsed.routines && Array.isArray(parsed.routines)) {
+                    routines = parsed.routines;
+                    localStorage.setItem('ff_routines', JSON.stringify(routines));
+                    if (Number.isFinite(parsed.streak)) {
+                        streak = parsed.streak;
+                        localStorage.setItem('ff_streak', streak);
+                    }
+                    renderRoutines(currentFilter);
+                    updateProgress();
+                    updateProfileStats();
+                    alert(t.importSuccess);
+                } else {
+                    alert(t.invalidImportData);
+                }
+            } catch (err) {
+                alert(t.invalidImportData);
+            }
+        }
+
+        function resetAllAppData() {
+            const t = translations[currentLang];
+            if (confirm(t.resetDataConfirm)) {
+                localStorage.removeItem('ff_routines');
+                localStorage.removeItem('ff_streak');
+                localStorage.removeItem('ff_blocker_enabled');
+                routines = [
+                    { id: 1, title: 'সকালের ব্যায়াম ও মেডিটেশন', category: 'morning', time: '07:00', completed: true },
+                    { id: 2, title: 'গুরুত্বপূর্ণ প্রজেক্ট কোডিং/পড়াশোনা', category: 'afternoon', time: '11:00', completed: false },
+                    { id: 3, title: 'বই পড়া ও নতুন স্কিল শেখা', category: 'evening', time: '18:00', completed: false },
+                    { id: 4, title: 'দৈনিক কাজের মূল্যায়ন ও ঘুম', category: 'night', time: '22:30', completed: false }
+                ];
+                streak = 5;
+                localStorage.setItem('ff_routines', JSON.stringify(routines));
+                localStorage.setItem('ff_streak', streak);
+                renderRoutines('all');
+                updateProgress();
+                updateProfileStats();
+                closeModal('settingsModal');
+                alert(t.dataResetSuccess);
+            }
+        }
+
+        // --- SOCIAL MEDIA BLOCK OVERLAY SIMULATION ---
+        function testBlockOverlay(platformName) {
+            const overlay = document.getElementById('blockOverlay');
+            document.getElementById('blockedAppName').innerText = platformName;
+            
+            const quotes = translations[currentLang].quotes;
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('motivationalQuote').innerText = randomQuote;
+
+            overlay.classList.remove('hidden');
+        }
+
+        function closeBlockOverlay() {
+            document.getElementById('blockOverlay').classList.add('hidden');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            if (id === 'accountModal') {
+                const user = JSON.parse(localStorage.getItem('ff_current_user'));
+                if (!user && document.getElementById('accountEmail')) {
+                    document.getElementById('accountEmail').focus();
+                }
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // --- WEB AUDIO SYNTHESIS FOR FOCUS SOUNDS ---
+        function playAmbientSound(type) {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (currentSoundNode) {
+                currentSoundNode.stop();
+                currentSoundNode = null;
+            }
+
+            // Create noise buffer for atmospheric sounds
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = buffer.getChannelData(0);
+
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = buffer;
+            whiteNoise.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+
+            if (type === 'rain') {
+                filter.type = 'lowpass';
+                filter.frequency.value = 1000;
+            } else if (type === 'wind') {
+                filter.type = 'bandpass';
+                filter.frequency.value = 500;
+            } else if (type === 'waves') {
+                filter.type = 'lowpass';
+                filter.frequency.value = 400;
+            }
+
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.value = 0.08;
+
+            whiteNoise.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            whiteNoise.start();
+            currentSoundNode = whiteNoise;
+        }
+
+        // --- THEME & LANGUAGE SWITCHING ---
+        function applyTheme(theme) {
+            const html = document.documentElement;
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const settingsTheme = document.getElementById('settingsTheme');
+
+            if (settingsTheme) settingsTheme.value = theme;
+            if (sunIcon && moonIcon) {
+                if (theme === 'light') {
+                    html.classList.remove('dark');
+                    html.classList.add('light');
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                } else {
+                    html.classList.remove('light');
+                    html.classList.add('dark');
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                }
+            } else {
+                if (theme === 'light') {
+                    html.classList.remove('dark');
+                    html.classList.add('light');
+                } else {
+                    html.classList.remove('light');
+                    html.classList.add('dark');
+                }
+            }
+        }
+
+        function applyLanguage(lang) {
+            const t = translations[lang];
+            
+            document.getElementById('subHeaderDesc').innerText = t.subHeaderDesc;
+            document.getElementById('langLabel').innerText = t.langLabel;
+            document.getElementById('settingsBtn').title = t.settingsLabel;
+            document.getElementById('settingsBtn').setAttribute('aria-label', t.settingsLabel);
+
+            // Auth modal elements
+            document.getElementById('accountModalDesc').innerText = t.accountModalDesc;
+            document.getElementById('loginTabLabel').innerText = t.loginTabLabel;
+            document.getElementById('signupTabLabel').innerText = t.signupTabLabel;
+            document.getElementById('accountNameLabel').innerText = t.accountNameLabel;
+            document.getElementById('accountName').placeholder = t.namePlaceholder;
+            document.getElementById('accountEmailLabel').innerText = t.accountEmailLabel;
+            document.getElementById('accountPasswordLabel').innerText = t.accountPasswordLabel;
+            document.getElementById('accountConfirmPasswordLabel').innerText = t.accountConfirmPasswordLabel;
+
+            // Profile view elements
+            document.getElementById('profileModalTitle').innerText = t.profileModalTitle;
+            document.getElementById('profileModalDesc').innerText = t.profileModalDesc;
+            document.getElementById('profileCompletedLabel').innerText = t.profileCompletedLabel;
+            document.getElementById('profileStreakLabel').innerText = t.profileStreakLabel;
+            document.getElementById('profileStatusBadge').innerText = t.profileStatusBadge;
+            document.getElementById('logoutBtnText').innerText = t.logoutBtn;
+
+            // Settings modal elements
+            document.getElementById('settingsModalTitle').innerText = t.settingsModalTitle;
+            document.getElementById('settingsModalDesc').innerText = t.settingsModalDesc;
+            document.getElementById('secAccountTitle').innerText = t.secAccountTitle;
+            document.getElementById('secAppearanceTitle').innerText = t.secAppearanceTitle;
+            document.getElementById('secTimerTitle').innerText = t.secTimerTitle;
+            document.getElementById('secSoundTitle').innerText = t.secSoundTitle;
+            document.getElementById('secDataTitle').innerText = t.secDataTitle;
+            document.getElementById('settingsLanguageLabel').innerText = t.settingsLanguageLabel;
+            document.getElementById('settingsThemeLabel').innerText = t.settingsThemeLabel;
+            document.getElementById('defaultDurationLabel').innerText = t.defaultDurationLabel;
+            document.getElementById('breakDurationLabel').innerText = t.breakDurationLabel;
+            document.getElementById('chimeToggleLabel').innerText = t.chimeToggleLabel;
+            document.getElementById('chimeToggleSubtext').innerText = t.chimeToggleSubtext;
+            document.getElementById('testSoundBtnText').innerText = t.testSoundBtnText;
+            document.getElementById('autoResetLabel').innerText = t.autoResetLabel;
+            document.getElementById('autoResetSubtext').innerText = t.autoResetSubtext;
+            document.getElementById('exportDataBtnText').innerText = t.exportDataBtnText;
+            document.getElementById('importDataBtnText').innerText = t.importDataBtnText;
+            document.getElementById('resetAllDataBtnText').innerText = t.resetAllDataBtnText;
+
+            document.querySelector('#settingsTheme option[value="dark"]').innerText = t.darkTheme;
+            document.querySelector('#settingsTheme option[value="light"]').innerText = t.lightTheme;
+            document.getElementById('settingsLanguage').value = lang;
+            document.querySelectorAll('.modal-close').forEach(button => button.setAttribute('aria-label', lang === 'bn' ? 'বন্ধ করুন' : 'Close'));
+
+            updateAuthUI();
+            setAuthMode(accountMode);
+            document.getElementById('quickFocusLabel').innerText = t.quickFocusLabel;
+            document.getElementById('todayHeadline').innerText = t.todayHeadline;
+            document.getElementById('streakText').innerText = t.streakText;
+            document.getElementById('completedRatioText').innerText = t.completedRatioText;
+            document.getElementById('addBtnText').innerText = t.addBtnText;
+            document.getElementById('taskTitleInput').placeholder = t.taskTitlePlaceholder;
+            document.getElementById('pomodoroHeader').innerText = t.pomodoroHeader;
+            document.getElementById('pomodoroSubHeader').innerText = t.pomodoroSubHeader;
+            document.getElementById('resetBtnText').innerText = t.resetBtnText;
+            document.getElementById('blockerTitle').innerText = t.blockerTitle;
+            document.getElementById('blockerDesc').innerText = t.blockerDesc;
+            document.getElementById('soundTitle').innerText = t.soundTitle;
+            document.getElementById('analyticsTitle').innerHTML = `<i data-lucide="bar-chart-2" class="w-4 h-4 mr-2 text-indigo-400"></i> ${t.analyticsTitle}`;
+            document.getElementById('weeklyScore').innerText = t.weeklyScore;
+            document.getElementById('blockModalTitle').innerText = t.blockModalTitle;
+            document.getElementById('backToWorkBtn').innerText = t.backToWorkBtn;
+
+            if (!isTimerRunning) {
+                document.getElementById('startBtnText').innerText = t.startBtnText;
+            }
+
+            lucide.createIcons();
+        }
+
+        function updateDateDisplay() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const locale = currentLang === 'bn' ? 'bn-BD' : 'en-US';
+            document.getElementById('currentDateStr').innerText = now.toLocaleDateString(locale, options);
+        }
+
+        // --- CHART JS ANALYTICS INITIALIZATION ---
+        function initChart() {
+            const ctx = document.getElementById('productivityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                    datasets: [{
+                        label: 'Productivity %',
+                        data: [70, 85, 90, 65, 80, 95, 88],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#60a5fa'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10, weight: 'bold' } } },
+                        y: { min: 0, max: 100, grid: { color: 'rgba(59, 130, 246, 0.1)' }, ticks: { color: '#94a3b8', font: { size: 10, weight: 'bold' } } }
+                    }
+                }
+            });
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"']/g, function(m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
+        }
+    </script>
+</body>
+</html>

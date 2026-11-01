@@ -1,0 +1,209 @@
+{
+    "$schema" : "https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json",
+    "version" : "2.1.0",
+    "runs" : [
+        {
+            "tool": {
+                "driver": {
+                    "name": "Android Lint",
+                    "fullName": "Android Lint (in gradle)",
+                    "version": "9.5.0",
+                    "semanticVersion": "9.5.0",
+                    "organization": "Google",
+                    "informationUri": "https://developer.android.com/studio/write/lint",
+                    "fullDescription": {
+                        "text": "Static analysis originally for Android source code but now performing general analysis"
+                    },
+                    "language": "en-US",
+                    "rules": [
+                        {
+                            "id": "GestureBackNavigation",
+                            "shortDescription": {
+                                "text": "Usage of KeyEvent.KEYCODE_BACK"
+                            },
+                            "fullDescription": {
+                                "text": "For apps targeting and running on Android 16+ (API 36+), predictive back animations are enabled by default. A back gesture does not trigger {Activity,Dialog}.onBackPressed, and does not dispatch KeyEvent.KEYCODE_BACK.\n\nApps should migrate to AndroidX's backward compatible OnBackPressedDispatcher.\n\nThis lint check does not consider per-activity opt-in/opt-out, so you may need to suppress or baseline reported incidents if migrating per-activity.",
+                                "markdown": "For apps targeting and running on Android 16+ (API 36+), predictive back animations are enabled by default. A back gesture does not trigger `{Activity,Dialog}.onBackPressed`, and does not dispatch `KeyEvent.KEYCODE_BACK`.\n\nApps should migrate to AndroidX's backward compatible `OnBackPressedDispatcher`.\n\nThis lint check does not consider per-activity opt-in/opt-out, so you may need to suppress or baseline reported incidents if migrating per-activity."
+                            },
+                            "defaultConfiguration": {
+                                "level": "warning",
+                                "rank": 40
+                            },
+                            "properties": {
+                                "tags": [
+                                    "Correctness"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "MissingOnRenderProcessGone",
+                            "shortDescription": {
+                                "text": "WebViewClient does not implement onRenderProcessGone"
+                            },
+                            "fullDescription": {
+                                "text": "If a WebView's render process is shut down, the app will crash unless the WebViewClient implements onRenderProcessGone and returns true. It is highly recommended to handle this callback.",
+                                "markdown": "If a WebView's render process is shut down, the app will crash unless the WebViewClient implements `onRenderProcessGone` and returns `true`. It is highly recommended to handle this callback."
+                            },
+                            "defaultConfiguration": {
+                                "level": "warning",
+                                "rank": 60
+                            },
+                            "properties": {
+                                "tags": [
+                                    "Correctness"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "SetJavaScriptEnabled",
+                            "shortDescription": {
+                                "text": "Using setJavaScriptEnabled",
+                                "markdown": "Using `setJavaScriptEnabled`"
+                            },
+                            "fullDescription": {
+                                "text": "Your code should not invoke setJavaScriptEnabled if you are not sure that your app really requires JavaScript support.",
+                                "markdown": "Your code should not invoke `setJavaScriptEnabled` if you are not sure that your app really requires JavaScript support."
+                            },
+                            "defaultConfiguration": {
+                                "level": "warning",
+                                "rank": 50
+                            },
+                            "properties": {
+                                "tags": [
+                                    "Security"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            "originalUriBaseIds": {
+                "%SRCROOT%": {
+                    "uri": "file:///C:/project/apps/daily-routines/android/"
+                }
+            },
+            "results": [
+                {
+                    "ruleId": "GestureBackNavigation",
+                    "ruleIndex": 0,
+                    "message": {
+                        "text": "onBackPressed is no longer called for back gestures; migrate to AndroidX's backward compatible OnBackPressedDispatcher",
+                        "markdown": "`onBackPressed` is no longer called for back gestures; migrate to AndroidX's backward compatible `OnBackPressedDispatcher`"
+                    },
+                    "level": "error",
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uriBaseId": "%SRCROOT%",
+                                    "uri": "app/src/main/java/com/focusflow/dailyroutines/MainActivity.java"
+                                },
+                                "region": {
+                                    "startLine": 43,
+                                    "startColumn": 17,
+                                    "endLine": 43,
+                                    "endColumn": 30,
+                                    "charOffset": 1477,
+                                    "charLength": 13,
+                                    "snippet": {
+                                        "text": "onBackPressed"
+                                    }
+                                },
+                                "contextRegion": {
+                                    "startLine": 41,
+                                    "endLine": 46,
+                                    "snippet": {
+                                        "text": "\n    @Override\n    public void onBackPressed() {\n        if (webView != null && webView.canGoBack()) {\n            webView.goBack();\n"
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "fixes": [
+                    ],
+                    "partialFingerprints": {
+                        "sourceContext/v1": "b70a7328cc5218d8"
+                    }
+                },
+                {
+                    "ruleId": "MissingOnRenderProcessGone",
+                    "ruleIndex": 1,
+                    "message": {
+                        "text": "WebViewClient should implement onRenderProcessGone to handle render process crashes or out-of-memory errors. Otherwise, the app will crash when the render process is shut down.",
+                        "markdown": "WebViewClient should implement `onRenderProcessGone` to handle render process crashes or out-of-memory errors. Otherwise, the app will crash when the render process is shut down."
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uriBaseId": "%SRCROOT%",
+                                    "uri": "app/src/main/java/com/focusflow/dailyroutines/MainActivity.java"
+                                },
+                                "region": {
+                                    "startLine": 30,
+                                    "startColumn": 38,
+                                    "endLine": 30,
+                                    "endColumn": 51,
+                                    "charOffset": 1038,
+                                    "charLength": 13,
+                                    "snippet": {
+                                        "text": "WebViewClient"
+                                    }
+                                },
+                                "contextRegion": {
+                                    "startLine": 28,
+                                    "endLine": 33,
+                                    "snippet": {
+                                        "text": "                .build();\n\n        webView.setWebViewClient(new WebViewClient() {\n            @Override\n            public android.webkit.WebResourceResponse shouldInterceptRequest(\n"
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "partialFingerprints": {
+                        "sourceContext/v1": "4eb21c4e9334ff47"
+                    }
+                },
+                {
+                    "ruleId": "SetJavaScriptEnabled",
+                    "ruleIndex": 2,
+                    "message": {
+                        "text": "Using setJavaScriptEnabled can introduce XSS vulnerabilities into your application, review carefully",
+                        "markdown": "Using `setJavaScriptEnabled` can introduce XSS vulnerabilities into your application, review carefully"
+                    },
+                    "locations": [
+                        {
+                            "physicalLocation": {
+                                "artifactLocation": {
+                                    "uriBaseId": "%SRCROOT%",
+                                    "uri": "app/src/main/java/com/focusflow/dailyroutines/MainActivity.java"
+                                },
+                                "region": {
+                                    "startLine": 20,
+                                    "startColumn": 9,
+                                    "endLine": 20,
+                                    "endColumn": 57,
+                                    "charOffset": 523,
+                                    "charLength": 48,
+                                    "snippet": {
+                                        "text": "webView.getSettings().setJavaScriptEnabled(true)"
+                                    }
+                                },
+                                "contextRegion": {
+                                    "startLine": 18,
+                                    "endLine": 23,
+                                    "snippet": {
+                                        "text": "\n        webView = new WebView(this);\n        webView.getSettings().setJavaScriptEnabled(true);\n        webView.getSettings().setDomStorageEnabled(true);\n        webView.getSettings().setAllowFileAccess(false);\n"
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "partialFingerprints": {
+                        "sourceContext/v1": "8fc61eebed1ae24d"
+                    }
+                }
+            ]
+        }
+    ]
+}
